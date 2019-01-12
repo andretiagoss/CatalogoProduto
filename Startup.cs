@@ -22,11 +22,8 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CatalagoContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("CatalagoSQL")));
-
             //Adicionando escopo referente ao contexto, é global por aplicação.
-            services.AddScoped<CatalagoContext, CatalagoContext>();
+            services.AddScoped<CatalagoContext>();
 
             //Adicionando interfaces pra classes, é por requisição, caso não tenha ele cria.
             services.AddTransient<ProdutoRepository, ProdutoRepository>();
@@ -43,15 +40,6 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -62,6 +50,15 @@ namespace API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = string.Empty;
             });
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseMvc();
         }
