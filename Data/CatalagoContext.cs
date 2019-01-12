@@ -5,10 +5,11 @@ namespace API.Data
 {
     public class CatalagoContext : DbContext
     {
+        public DbSet<Produto> Produtos { get; set; }
+        
         public CatalagoContext(DbContextOptions<CatalagoContext> options)
         :base(options){}
-        public DbSet<Produto> Produtos { get; set; }
-
+        
         /// <summary>
         /// Método para fazer configurações com o banco de dados.
         /// </summary>
